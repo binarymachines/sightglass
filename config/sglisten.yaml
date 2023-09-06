@@ -1,0 +1,84 @@
+# 
+# YAML init file for SNAP microservice framework
+#
+#
+
+globals:
+  bind_host:                   0.0.0.0
+  port:                        6050
+  debug:                       True
+  logfile:                     sg_listener_svc.log
+  project_directory:           $SG_HOME
+  service_module:              sg_listener_services
+  transform_function_module:   sg_transforms
+  preprocessor_module:         sg_decode
+  deployment_type:
+
+
+service_objects:
+
+  templatesvc:
+    class: TemplatingService
+    init_params:
+      - name: template_directory
+        value: template_files
+
+      - name: templates
+        value:
+          - test: test.html.tpl
+          - test2: test2.html.tpl
+
+
+data_shapes:
+  default:
+    fields:
+
+
+  form_shape:  
+    fields: 
+      - name: first_name
+        datatype: str
+        is_required: True
+
+      - name: last_name
+        datatype: str
+        is_required: True
+
+  page_shape:
+    fields: 
+      - name: id
+        datatype: str
+        is_required: True
+
+transforms:
+  ping:
+    route:              /ping
+    method:             GET
+    input_shape:        default
+    output_mimetype:    application/json
+
+
+  page:
+    route:              /page
+    method:             GET
+    input_shape:        default
+    output_mimetype:    text/html
+
+
+  nav:
+    route:              /nav
+    method:             GET
+    input_shape:        default
+    output_mimetype:    text/html
+
+
+decoders:
+  #application/json; charset=UTF-8: decode_json
+
+
+error_handlers:
+  - error:                NoSuchObjectException
+    tx_status_code:       HTTP_NOT_FOUND 
+
+  - error:                DuplicateIDException
+    tx_status_code:       HTTP_BAD_REQUEST
