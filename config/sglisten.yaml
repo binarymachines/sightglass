@@ -9,7 +9,7 @@ globals:
   debug:                       True
   logfile:                     sg_listener_svc.log
   project_directory:           $SG_HOME
-  service_module:              sg_listener_services
+  service_module:              sg_services
   transform_function_module:   sg_transforms
   preprocessor_module:         sg_decode
   deployment_type:
@@ -20,13 +20,12 @@ service_objects:
   templatesvc:
     class: TemplatingService
     init_params:
-      - name: template_directory
+      - name: template_dir
         value: template_files
 
       - name: templates
         value:
-          - test: test.html.tpl
-          - test2: test2.html.tpl
+          - test: test.html.tpl          
 
 
 data_shapes:

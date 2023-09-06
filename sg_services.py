@@ -27,12 +27,12 @@ class TemplatingService(object):
 
         self.template_dir = init_params['template_dir']
 
-        template_tbl = dict()
-        templates = init_params['template_files']
+        self.template_tbl = dict()
+        templates = init_params['templates']
 
         for entry in templates:
             for id,filename in entry.items():
-                template_tbl[id] = filename
+                self.template_tbl[id] = filename
 
 
     def lookup_template(self, tpl_name):
@@ -45,6 +45,8 @@ class TemplatingService(object):
 
         if not os.path.isfile(template_path):
             raise MissingTemplateFileError(tpl_name, template_path)
+        
+        return template_path
 
 
     def render(self, template_name, **params):
